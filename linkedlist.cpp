@@ -1,7 +1,9 @@
 #include <iostream>
 
 class LinkedList {
+
 private:
+
 	struct Node {
 		double value;
 		Node* next;
@@ -16,7 +18,16 @@ public:
 	}
 
 	~LinkedList(){
+		Node* nodePtr;
+		Node* nextNode;
 
+		nodePtr = head;
+
+		while (nodePtr != NULL) {
+			nextNode = nodePtr->next;
+			delete nodePtr;
+			nodePtr = nextNode;
+		}
 	}
 
 	void appendNode(double num){
@@ -44,6 +55,64 @@ public:
 		}
 	}
 
+	void insertNode(double num){
+		Node* newNode;
+		Node* nodePtr;
+		Node* previousNode = NULL;
+
+		newNode = new Node;
+		newNode->value = num;
+
+		if (!head){
+			head = newNode;
+			newNode->next = NULL;
+		}else{
+			nodePtr = head;
+			previousNode = NULL;
+
+			// If value is less than new num
+			// insert there
+			while (nodePtr != NULL &&  num > nodePtr->value) {
+				previousNode = nodePtr;
+				nodePtr = nodePtr->next;
+			}
+
+			// is the new node is the first of the list
+			if(previousNode == NULL){
+				head = newNode;
+				newNode->next = nodePtr;
+			}else{ // Otherwise insert after the previous node
+				previousNode->next = newNode;
+				newNode->next = nodePtr;
+			}
+		}
+	}
+
+
+	void deleteNode(double num){
+
+		Node* nodePtr;
+		Node* previousNode;
+		if (!head) {
+			return;
+		}else{
+
+			nodePtr = head;
+
+			while(nodePtr != NULL && nodePtr->value != num){
+				previousNode = nodePtr;
+				nodePtr = nodePtr->next;
+			}
+
+			if (nodePtr){
+				previousNode->next = nodePtr->next;
+				delete nodePtr;
+			}
+
+		}
+	}
+
+
 	void displayList(){
 		Node* nodePtr;
 		nodePtr = head;
@@ -66,7 +135,9 @@ int main(){
 		foo.appendNode(i);
 	}
 
+	foo.deleteNode(7);
 	foo.displayList();
+	foo.~LinkedList();
 
 	return 0;
 }
