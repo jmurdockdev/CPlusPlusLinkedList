@@ -14,7 +14,7 @@ private:
 public:
 
 	LinkedList(){
-		head = NULL;
+		head = nullptr;
 	}
 
 	~LinkedList(){
@@ -23,12 +23,29 @@ public:
 
 		nodePtr = head;
 
-		while (nodePtr != NULL) {
+		while (nodePtr != nullptr) {
 			nextNode = nodePtr->next;
 			delete nodePtr;
 			nodePtr = nextNode;
 		}
 	}
+
+	void prependNode(double num){
+
+		Node* newNode;
+		newNode = new Node;
+		newNode->value = num;
+
+		if (!head){
+			newNode->next = nullptr;
+			head = newNode;
+		}else{
+			newNode->next = head;
+			head = newNode;
+		}
+
+	}
+
 
 	void appendNode(double num){
 
@@ -37,7 +54,7 @@ public:
 
 		newNode = new Node; // Allocate a new Node
 		newNode->value = num;
-		newNode->next = NULL;
+		newNode->next = nullptr;
 
 		// If no nodes in the LinkedList,
 		// make newNode the first node
@@ -46,7 +63,7 @@ public:
 		}else{
 			// Initiailize nodePtr to head of LinkedList
 			nodePtr = head;
-			// Fid last node in the LinkedList
+			// Find last node in the LinkedList
 			while (nodePtr->next){
 				nodePtr = nodePtr->next;
 			}
@@ -58,27 +75,27 @@ public:
 	void insertNode(double num){
 		Node* newNode;
 		Node* nodePtr;
-		Node* previousNode = NULL;
+		Node* previousNode = nullptr;
 
 		newNode = new Node;
 		newNode->value = num;
 
 		if (!head){
 			head = newNode;
-			newNode->next = NULL;
+			newNode->next = nullptr;
 		}else{
 			nodePtr = head;
-			previousNode = NULL;
+			previousNode = nullptr;
 
 			// If value is less than new num
 			// insert there
-			while (nodePtr != NULL &&  num > nodePtr->value) {
+			while (nodePtr != nullptr &&  num > nodePtr->value) {
 				previousNode = nodePtr;
 				nodePtr = nodePtr->next;
 			}
 
 			// is the new node is the first of the list
-			if(previousNode == NULL){
+			if(previousNode == nullptr){
 				head = newNode;
 				newNode->next = nodePtr;
 			}else{ // Otherwise insert after the previous node
@@ -93,13 +110,14 @@ public:
 
 		Node* nodePtr;
 		Node* previousNode;
+
 		if (!head) {
 			return;
 		}else{
 
 			nodePtr = head;
 
-			while(nodePtr != NULL && nodePtr->value != num){
+			while(nodePtr != nullptr && nodePtr->value != num){
 				previousNode = nodePtr;
 				nodePtr = nodePtr->next;
 			}
@@ -130,12 +148,14 @@ public:
 int main(){
 
 	LinkedList foo;
+	foo.prependNode(700);
 
 	for(int i = 0; i < 10; i++){
 		foo.appendNode(i);
 	}
 
 	foo.deleteNode(7);
+	foo.prependNode(8000);
 	foo.displayList();
 	foo.~LinkedList();
 
